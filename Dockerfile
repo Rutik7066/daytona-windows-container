@@ -33,4 +33,4 @@ RUN useradd -m -s /bin/bash daytona && \
     echo "daytona ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
-ENTRYPOINT [ "/bin/bash" ]
+ENTRYPOINT [ "/usr/bin/tini" , "-s", "/run/entry.sh" ]
