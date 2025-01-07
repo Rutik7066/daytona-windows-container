@@ -5,18 +5,19 @@ RUN set -eu && \
     apt-get update && \
     apt-get --no-install-recommends -y install \
     netcat-openbsd \
-    git \
     sudo \
+    git \
     openssh-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/run/sshd
 
-
-ARG SSHPORT=2222
-
 COPY ./scripts/* /oem/ 
+
+ENV SSHPORT=10022
+ENV USERNAME=daytona
+ENV PASSWORD=daytona
 
 RUN echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config && \
     echo "PermitTunnel yes" >> /etc/ssh/sshd_config && \
@@ -27,10 +28,5 @@ RUN service ssh start
 
 EXPOSE 8006 3389 22  
 
-RUN useradd -m -s /bin/bash daytona && \
-    echo "daytona:daytona" | chpasswd && \
-    usermod -aG sudo daytona && \
-    echo "daytona ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-
-ENTRYPOINT [ "/usr/bin/tini" , "-s", "/run/entry.sh" ]
+ENTRYPOINT ["sleep", "infinity" ]
