@@ -1,0 +1,1 @@
+docker build -t rutik7066/daytona-windows-container:latest -f Dockerfile . && docker push rutik7066/daytona-windows-container:latest
